@@ -26,6 +26,19 @@ class Api::V1::CompaniesController < ApplicationController
     end
   end
 
+  # GET /:id/charges
+  def charges
+    company_number = params[:id]
+
+    results = client.charges(company_number, params)
+
+    if results.nil?
+      render_error_and_return(connection_error)
+    else
+      render json: results, status: :ok
+    end
+  end
+
   private
 
   def restrict_access

@@ -31,6 +31,18 @@ class Client
     get('/search/companies')
   end
 
+  # Find company charges
+  #
+  # @param company_number [String] company house reference number
+  # @param client_params [Hash] additional search options to pass through to company house API
+  # @return [Response] response from company house API
+  def charges(company_number, client_params)
+    self.options[:query][:items_per_page] = client_params[:items_per_page] if client_params[:items_per_page]
+    self.options[:query][:start_index] = client_params[:start_index] if client_params[:start_index]
+
+    get("/company/#{company_number}/charges")
+  end
+
   private
 
   def get(path)
