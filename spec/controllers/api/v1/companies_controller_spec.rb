@@ -3,7 +3,8 @@ require 'rails_helper'
 describe Api::V1::CompaniesController do
   describe '#index' do
     let(:api_key) { ApiKey.create! }
-    let(:query_params) { { api_key: api_key.access_token } }
+    let(:query_string) { 'foobar' }
+    let(:query_params) { { api_key: api_key.access_token, q: query_string } }
     let(:companies) { '' }
     let(:client) { double(companies: companies) }
 
@@ -33,6 +34,9 @@ describe Api::V1::CompaniesController do
 
           expect(parsed_response['errors'].first['error_code']).to eq 500
         end
+      end
+      context 'when no query string is supplied' do
+        it 'responds with error code 400'
       end
     end
   end

@@ -10,7 +10,9 @@ class Client
     @options = { basic_auth: { username: Settings.private_key } }
   end
 
-  def companies
+  def companies(query, client_params)
+    self.options[:query] = { q: query }
+
     self.class.get('/search/companies', self.options)
   end
 end
