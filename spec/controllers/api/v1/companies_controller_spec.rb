@@ -2,10 +2,13 @@ require 'rails_helper'
 
 describe Api::V1::CompaniesController do
   describe '#index' do
-    let!(:api_key) { ApiKey.create! }
+    let(:api_key) { ApiKey.create! }
     let(:query_params) { { api_key: api_key.access_token } }
+    let(:companies) { '' }
+    let(:client) { double(companies: companies) }
 
     before do
+      allow(Client).to receive(:new).and_return(client)
       get :index, query_params
     end
 
@@ -20,6 +23,16 @@ describe Api::V1::CompaniesController do
     context 'when providing a valid token' do
       it 'status is ok' do
         expect(response.status).to eq 200
+      end
+
+      context 'when authentication to Company House fails' do
+        let(:companies) { nil }
+
+        it 'responds with error code 500' do
+          parsed_response = JSON.parse(response.body)
+
+          expect(parsed_response['errors'].first['error_code']).to eq 500
+        end
       end
     end
   end
