@@ -5,6 +5,10 @@ describe Api::V1::CompaniesController do
     it 'should have specs..'
   end
 
+  describe '#charges' do
+    it 'should also have specs..'
+  end
+
   describe '#index' do
     let(:api_key) { ApiKey.create! }
     let(:query_string) { 'foobar' }
