@@ -1,6 +1,10 @@
 require 'rails_helper'
 
 describe Api::V1::CompaniesController do
+  describe '#show' do
+    it 'should have specs..'
+  end
+
   describe '#index' do
     let(:api_key) { ApiKey.create! }
     let(:query_string) { 'foobar' }
